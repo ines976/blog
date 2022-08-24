@@ -7,19 +7,20 @@ class Article
     private $subject;
     private $text;
     private $date_pub;
+    private $id_user;
 
     /**
      * @param $category
      * @param $subject
      * @param $text
-     * @param $date_pub
+     * @param $id_user
      */
-    public function __construct($category, $subject, $text, $date_pub)
+    public function __construct($category, $subject, $text, $id_user)
     {
         $this->category = $category;
         $this->subject = $subject;
         $this->text = $text;
-        $this->date_pub = $date_pub;
+        $this->id_user = $id_user;
     }
 
     /**

@@ -8,7 +8,7 @@ if (isset($_POST['id_user'], $_POST['id_post'], $_POST['text']))
 {
 
 
-    $commentaire = new Commentaire($_POST['id_post'],$_POST['text'],$_POST['id_user']);
+    $commentaire = new Commentaire($_POST['id_user'],$_POST['id_post'],$_POST['text']);
     $commentaireC = new commentaireC();
     var_dump($commentaire);
     $commentaireC->ajoutercommentaire($commentaire);

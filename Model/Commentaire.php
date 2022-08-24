@@ -6,18 +6,54 @@ class Commentaire
     private $id_post;
     private $date_pub;
     private $text;
+    private $etat;
+    private $id_user;
 
     /**
      * @param $id_post
      * @param $date_pub
      * @param $text
      */
-    public function __construct($id_post, $date_pub, $text)
+    public function __construct($id_post, $text , $id_user)
     {
         $this->id_post = $id_post;
-        $this->date_pub = $date_pub;
         $this->text = $text;
+        $this->id_user = $id_user;
+   }
+
+    /**
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->id_user;
     }
+
+    /**
+     * @param mixed $id_user
+     */
+    public function setIdUser($id_user): void
+    {
+        $this->id_user = $id_user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * @param mixed $etat
+     */
+    public function setEtat($etat): void
+    {
+        $this->etat = $etat;
+    }
+
+
 
     /**
      * @return mixed

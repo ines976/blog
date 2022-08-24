@@ -1,7 +1,7 @@
 <?php
 
-require_once '../../config.php';
-require_once '../../Model/commentaire.php';
+include_once '../../config.php';
+include_once '../../Model/commentaire.php';
 
 
 Class commentaireC {
@@ -73,31 +73,35 @@ Class commentaireC {
         try {
             $querry = $config->prepare('
                 INSERT INTO commentaire
-                (id_post,subject,text)
+                (id_post,id_user,text)
                 VALUES
-                (:id_post,:subject,:text)
+                (:category,:subject,:text)
                 ');
             $querry->execute([
-                'id_post'=>$commentaire->getId_post(),
+                'category'=>$commentaire->getIdPost(),
+                'subject'=>$commentaire->getIdUser(),
                 'text'=>$commentaire->getText()
             ]);
         } catch (PDOException $th) {
             $th->getMessage();
         }
     }
+
+
     function modifiercommentaire($commentaire)
     {
         $config = config::getConnexion();
         try {
             $querry = $config->prepare('
                 UPDATE commentaire SET
-              id_post=:id_post,text=:text
+              id_post=:category,id_user=:subject,text=:text
 
                 where id=:id
                 ');
             $querry->execute([
                 'id'=>$commentaire->getId(),
-                'id_post'=>$commentaire->getId_post(),
+                'category'=>$commentaire->getIdPost(),
+                'subject'=>$commentaire->getIdUser(),
                 'text'=>$commentaire->getText()
             ]);
         } catch (PDOException $th) {
@@ -105,6 +109,57 @@ Class commentaireC {
         }
     }
 
+    function modifierEtat($id,$etat)
+    {
+        $config = config::getConnexion();
+        try {
+            $querry = $config->prepare('
+                UPDATE commentaire SET
+              etat=:etat
+                where id=:id
+                ');
+            $querry->execute([
+                'id'=>$id,
+                'etat'=>$etat
+            ]);
+        } catch (PDOException $th) {
+            $th->getMessage();
+        }
+    }
+
+    function approuverCommentaire($id)
+    {
+        try {
+            $querry = $config->prepare('
+                UPDATE commentaire SET
+              etat=:etat
+                where id=:id
+                ');
+            $querry->execute([
+                'id'=>$id,
+                'etat'=>'Approved'
+            ]);
+        } catch (PDOException $th) {
+            $th->getMessage();
+        }
+    }
+
+    function refuserCommentaire($id)
+    {
+        try {
+            $querry = $config->prepare('
+                UPDATE commentaire SET
+              etat=:etat
+                where id=:id
+                ');
+            $querry->execute([
+                'id'=>$id,
+                'etat'=>'Rejected'
+            ]);
+        } catch (PDOException $th) {
+            $th->getMessage();
+        }
+    }
 
 
     function supprimercommentaire($id)
