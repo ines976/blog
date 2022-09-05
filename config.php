@@ -1,22 +1,43 @@
-
 <?php
-  class config {    
-    private static $pdo = NULL;
+  class config{
 
-    public static function getConnexion() {
-      if (!isset(self::$pdo)) {
-        try{
-          self::$pdo = new PDO('mysql:host=localhost;dbname=BlogPhp', 'root', '',
-          [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ]);
-          
-        }catch(Exception $e){
-          die('Erreur: '.$e->getMessage());
+    private static $instance = NULL;
+    private $db;
+
+    public static function getConnexion()
+    {
+      if (!isset(self::$instance))
+      {
+        try
+        {
+          self::$instance = new PDO('mysql:host=localhost;dbname=test','root','');
+		      self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
+        catch(Exception $e)
+        {
+          die('Erreur: '.$e->getMessage());
+	  	}
       }
-      return self::$pdo;
+      
+      return self::$instance;
+      
     }
+
+    public function query($sql)
+    {
+      $db = config::getConnexion();
+      $req = $db->prepare($sql);
+      $req->execute();
+      return $req->fetchAll();
+    }
+
   }
+  
+$databaseHost = 'localhost';
+$databaseName = 'test';
+$databaseUsername = 'root';
+$databasePassword = '';
+ 
+$mysqli = mysqli_connect($databaseHost, $databaseUsername, $databasePassword, $databaseName); 
 ?>
+ 
